@@ -37,21 +37,9 @@ namespace Shopify_Image_App.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string searchText)
         {
-            
-
             ViewData["searchText"] = searchText;
 
             List<Image> images = await _imageRepository.GetAllImages(searchText);
-
-            //if (!string.IsNullOrEmpty(searchText))
-            //{
-            //    images = _imageRepository.GetAllImages().Result.Reverse()
-            //                    .Where(x => x.ImageName.ToLower().Contains(searchText.ToLower())).OrderByDescending(x => x.CreatedOn);
-            //} else
-            //{
-            //    images = _imageRepository.GetAllImages().Result.Reverse().OrderByDescending(x => x.CreatedOn);
-            //}
-
 
             ListViewModel model = new ListViewModel()
             {
@@ -63,31 +51,41 @@ namespace Shopify_Image_App.Controllers
 
 
         [HttpGet]
-        //public IActionResult SpecificUser(string userId)
-        //{
-        //    ListViewModel model = new ListViewModel()
-        //    {
-        //        Images = _imageRepository.GetAllImages().Result.Reverse().Where(x => x.ApplicationUserId == userId)
-        //    };
+        public async Task<IActionResult> SpecificUser(string userId)
+        {
 
-        //    var user = _userManager.FindByIdAsync(userId);
-        //    ViewData["UserName"] = user.Result.Name;
+            List<Image> images = await _imageRepository.GetImagesByUser(userId);
+            ListViewModel model = new ListViewModel()
+            {
+                Images = images
+            };
 
-        //    return View(model);
-        //}
+            var user = _userManager.FindByIdAsync(userId);
+            ViewData["UserName"] = user.Result.Name;
+
+            return View(model);
+        }
 
 
         [Authorize]
         [HttpGet]
-        //public IActionResult UserImages()
-        //{
-        //    var userId = _userManager.GetUserId(HttpContext.User);
-        //    UserImagesViewModel model = new UserImagesViewModel()
-        //    {
-        //        Images = _imageRepository.GetAllImages().Result.Reverse().Where(x => x.ApplicationUserId == userId)
-        //    };
-        //    return View(model);
-        //}
+        public async Task<IActionResult> UserImages()
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+            try
+            {
+                UserImagesViewModel model = new UserImagesViewModel()
+                {
+                    Images = await _imageRepository.GetImagesByUser(userId)
+                };
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                return View("~/Views/Shared/ErrorPage.cshtml", e.Message);
+            }
+        }
 
         [Authorize]
         [HttpPost]

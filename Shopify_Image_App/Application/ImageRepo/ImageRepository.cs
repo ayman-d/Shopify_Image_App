@@ -27,15 +27,14 @@ namespace Shopify_Image_App.Application.ImageRepo
                 images = await _context.Images
                                     .Include(x => x.ApplicationUser)
                                     .OrderByDescending(x => x.CreatedOn)
-                                    .Select(x => x)
                                     .ToListAsync();
             } else
             {
                 images = await _context.Images
+                                    .Include(x => x.ApplicationUser)
                                     .Where(x => x.ImageName.ToLower()
                                     .Contains(searchText.ToLower()))
                                     .OrderByDescending(x => x.CreatedOn)
-                                    .Select(x => x)
                                     .ToListAsync();
             }
 
@@ -44,13 +43,19 @@ namespace Shopify_Image_App.Application.ImageRepo
 
         public async Task<List<Image>> GetImagesByUser(string userId)
         {
-            List<Image> images = await _context.Images
+            if (userId == null)
+            {
+                throw new Exception("No user ID provided");
+            } else
+            {
+                List<Image> images = await _context.Images
                                             .Where(x => x.ApplicationUserId == userId)
                                             .OrderByDescending(x => x.CreatedOn)
                                             .Select(x => x)
                                             .ToListAsync();
 
-            return images;
+                return images;
+            }
         }
 
         public async Task<Image> GetImage(int imageId)
@@ -75,10 +80,13 @@ namespace Shopify_Image_App.Application.ImageRepo
         {
             Image image = await _context.Images.FindAsync(imageId);
 
+            if (image == null)
+            {
+                throw new Exception("No image found under the provided image ID");
+            }
+
             _context.Images.Remove(image);
             await _context.SaveChangesAsync();
         }
-
-        
     }
 }

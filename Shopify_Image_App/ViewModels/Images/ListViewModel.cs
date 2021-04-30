@@ -8,6 +8,6 @@ namespace Shopify_Image_App.ViewModels.Images
 {
     public class ListViewModel
     {
-        public IEnumerable<Image> Images { get; set; }
+        public List<Image> Images { get; set; }
     }
 }

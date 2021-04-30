@@ -1,0 +1,88 @@
+﻿@model UserImagesViewModel;
+
+@{
+    ViewData["Title"] = "User Images";
+}
+
+<div class="container m-auto text-center">
+    <h3>Create New Image</h3>
+
+    <form enctype="multipart/form-data" asp-controller="Home" asp-action="UserImages" method="post" class="row">
+
+        <div asp-validation-summary="All" class="text-danger col-12 text-left"></div>
+
+        <div class="col-12 col-lg-4 align-self-center">
+            <div class="form-group">
+                <label asp-for="ImageName">Image Title</label>
+                <input asp-for="ImageName" type="text" value="" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-4 align-self-center" style="margin-top: -5px;">
+            <div class="form-group">
+                <label asp-for="ImageFile" class="col-form-label">Image File</label>
+                <div class="custom-file">
+                    <input asp-for="ImageFile" class="form-control custom-file-input" />
+                    <label class="custom-file-label">Choose File...</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-2 align-self-center" style="margin-top: 30px;">
+            <div class="form-group">
+                <button class="btn btn-outline-success" type="submit">Add Image</button>
+            </div>
+        </div>
+
+    </form>
+
+    <hr />
+
+    <h3>My Images</h3>
+
+    <div class="row">
+        @foreach (var image in Model.Images)
+        {
+            var imagePath = image.Path.Split("\\").Last();
+            var date = image.CreatedOn.ToString().Split(" ").First();
+
+            <div class="col-12 col-md-6 col-lg-4 mb-4 p-2">
+                <div class="card" style="width: 100%;">
+                    <img class="card-img-top" width="240px" height="240px" src="~/img/@imagePath" alt="Card image cap">
+                    <div class="card-body bg-dark text-white">
+                        <h4>@image.ImageName</h4>
+                        <p class="card-text">
+                            Shared by you
+                            <span style="font-size: 14px;"> on @date</span>
+                        </p>
+                    </div>
+                    <a asp-action="Delete" asp-controller="Home" asp-route-imageId="@image.Id"
+                       onclick="return confirm('Are you sure you want to delete this recipe?')" 
+                       class="btn btn-outline-danger"
+                       style="border-radius: 0 0 4px 4px">
+                    Delete Image
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
+
+    <script>
+        if (@ViewData["Message"] === "OK") {
+            console.log("hai")
+        }
+    </script>
+}

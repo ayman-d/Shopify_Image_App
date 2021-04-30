@@ -1,0 +1,39 @@
+﻿@model ListViewModel;
+
+@{
+    ViewData["Title"] = "User Page";
+}
+
+<div class="text-center">
+
+    <h1 class="mb-5">@ViewData["UserName"]'s Gallery</h1>
+
+    <br />
+    <br />
+
+    <div class="row">
+        @foreach (var image in Model.Images)
+        {
+            var imagePath = image.Path.Split("\\").Last();
+            var date = image.CreatedOn.ToString().Split(" ").First();
+
+            <div class="col-12 col-md-6 col-lg-4 mb-4 p-2">
+                <div class="card" style="width: 100%;">
+                    <img class="card-img-top" width="240px" height="240px" src="~/img/@imagePath" alt="Card image cap">
+                    <div class="card-body bg-dark text-white">
+                        <h4>@image.ImageName</h4>
+                        <p class="card-text">
+                            Shared by @image.ApplicationUser.Name
+                            <span style="font-size: 14px;"> on @date</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+
+@section Scripts {
+
+}

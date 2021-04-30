@@ -1,0 +1,56 @@
+﻿@model ListViewModel;
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+
+    <h1 class="mb-5">Image Gallery</h1>
+
+    <br />
+    <br />
+
+    <div class="row">
+
+        <div class="col-12 mb-5">
+            <form asp-controller="Home" asp-action="Index" method="get">
+                <div class="col-12">
+                    <div class="form-group row text-left">
+                        <label style="display: block; width: 100%;">Search Image Name</label>
+                        <input class="form-control" style="max-width: 300px; display: block;" type="text" id="searchInput"
+                               value="@ViewData["searchText"]" name="searchText" />
+                        <button class="btn btn-success ml-2" id="search-button" type="submit">Search</button>
+                        <a class="btn btn-danger ml-2" id="reset-button" asp-controller="Home" asp-action="Index" asp-route-searchText="">Reset</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        @foreach (var image in Model.Images)
+        {
+            var imagePath = image.Path.Split("\\").Last();
+            var date = image.CreatedOn.ToString().Split(" ").First();
+
+            <div class="col-12 col-md-6 col-lg-4 mb-4 p-2">
+                <div class="card" style="width: 100%;">
+                    <img class="card-img-top" width="240px" height="240px" src="~/img/@imagePath" alt="Card image cap">
+                    <div class="card-body bg-dark text-white">
+                        <h4>@image.ImageName</h4>
+                        <p class="card-text">
+                            Shared by
+                            <a asp-controller="Home" asp-action="SpecificUser" 
+                               asp-route-userId="@image.ApplicationUserId" style="color: deepskyblue; font-size: 20px;">@image.ApplicationUser.Name</a>
+                            <span style="font-size: 14px;"> on @date</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+
+@section Scripts {
+
+}

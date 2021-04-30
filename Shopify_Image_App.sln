@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopify_Image_App", "Shopify_Image_App\Shopify_Image_App.csproj", "{3419286C-A67D-49A6-8AF0-1F91032F71C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopifyImageTest", "ShopifyImageTest\ShopifyImageTest.csproj", "{7B5AA413-F627-45F4-A3F7-AA93D53381F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopify_Image_App.XUnitTest", "Shopify_Image_App.XUnitTest\Shopify_Image_App.XUnitTest.csproj", "{EF209B7F-72A6-4FD4-8EE9-FE9D371FA3BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{3419286C-A67D-49A6-8AF0-1F91032F71C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3419286C-A67D-49A6-8AF0-1F91032F71C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3419286C-A67D-49A6-8AF0-1F91032F71C5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B5AA413-F627-45F4-A3F7-AA93D53381F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B5AA413-F627-45F4-A3F7-AA93D53381F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B5AA413-F627-45F4-A3F7-AA93D53381F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B5AA413-F627-45F4-A3F7-AA93D53381F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF209B7F-72A6-4FD4-8EE9-FE9D371FA3BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF209B7F-72A6-4FD4-8EE9-FE9D371FA3BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF209B7F-72A6-4FD4-8EE9-FE9D371FA3BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF209B7F-72A6-4FD4-8EE9-FE9D371FA3BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

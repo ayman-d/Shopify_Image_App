@@ -40,7 +40,7 @@
                         <p class="card-text">
                             Shared by
                             <a asp-controller="Home" asp-action="SpecificUser"
-                               asp-route-userId="@image.ApplicationUserId"
+                               asp-route-userId="@image.ApplicationUserId" asp-route-userName="@image.ApplicationUser.Name"
                                style="color: deepskyblue; font-size: 20px;">
                                 @image.ApplicationUser.Name</a>
                             <span style="font-size: 14px;"> on @date</span>

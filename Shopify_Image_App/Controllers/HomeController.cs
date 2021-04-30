@@ -16,21 +16,15 @@ namespace Shopify_Image_App.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IImageRepository _imageRepository;
 
         public HomeController(
-            ILogger<HomeController> logger,
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
             IImageRepository imageRepository
             )
         {
-            _logger = logger;
             _userManager = userManager;
-            _signInManager = signInManager;
             _imageRepository = imageRepository;
         }
 
@@ -51,8 +45,9 @@ namespace Shopify_Image_App.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> SpecificUser(string userId)
+        public async Task<IActionResult> SpecificUser(string userId, string userName)
         {
+            
 
             List<Image> images = await _imageRepository.GetImagesByUser(userId);
             ListViewModel model = new ListViewModel()
@@ -60,8 +55,8 @@ namespace Shopify_Image_App.Controllers
                 Images = images
             };
 
-            var user = _userManager.FindByIdAsync(userId);
-            ViewData["UserName"] = user.Result.Name;
+            //var user = _userManager.FindByIdAsync(userId);
+            ViewData["UserName"] = userName;
 
             return View(model);
         }

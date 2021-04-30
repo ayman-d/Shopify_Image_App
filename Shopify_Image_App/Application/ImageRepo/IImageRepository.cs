@@ -8,7 +8,8 @@ namespace Shopify_Image_App.Application.ImageRepo
 {
     public interface IImageRepository
     {
-        Task<IEnumerable<Image>> GetAllImages();
+        Task<List<Image>> GetAllImages(string searchText);
+        Task<List<Image>> GetImagesByUser(string userId);
         Task<Image> GetImage(int imageId);
         Task AddImage(Image newImage);
         Task DeleteImage(int imageId);

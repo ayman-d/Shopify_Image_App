@@ -17,6 +17,54 @@ namespace Shopify_Image_App.Application.ImageRepo
             _context = context;
         }
 
+        public async Task<List<Image>> GetAllImages(string searchText)
+        {
+
+            List<Image> images = null;
+
+            if (string.IsNullOrEmpty(searchText))
+            {
+                images = await _context.Images
+                                    .Include(x => x.ApplicationUser)
+                                    .OrderByDescending(x => x.CreatedOn)
+                                    .Select(x => x)
+                                    .ToListAsync();
+            } else
+            {
+                images = await _context.Images
+                                    .Where(x => x.ImageName.ToLower()
+                                    .Contains(searchText.ToLower()))
+                                    .OrderByDescending(x => x.CreatedOn)
+                                    .Select(x => x)
+                                    .ToListAsync();
+            }
+
+            return images;
+        }
+
+        public async Task<List<Image>> GetImagesByUser(string userId)
+        {
+            List<Image> images = await _context.Images
+                                            .Where(x => x.ApplicationUserId == userId)
+                                            .OrderByDescending(x => x.CreatedOn)
+                                            .Select(x => x)
+                                            .ToListAsync();
+
+            return images;
+        }
+
+        public async Task<Image> GetImage(int imageId)
+        {
+            var image = await _context.Images.Where(x => x.Id == imageId).FirstOrDefaultAsync();
+
+            if (image == null)
+            {
+                throw new Exception("No image found under the provided ID");
+            }
+
+            return image;
+        }
+
         public async Task AddImage(Image newImage)
         {
             await _context.Images.AddAsync(newImage);
@@ -31,18 +79,6 @@ namespace Shopify_Image_App.Application.ImageRepo
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Image>> GetAllImages()
-        {
-            var images = _context.Images
-                                    .Select(x => x)
-                                    .Include(x => x.ApplicationUser);
-
-            return await images.ToListAsync();
-        }
-
-        public async Task<Image> GetImage(int imageId)
-        {
-            return await _context.Images.Where(x => x.Id == imageId).FirstOrDefaultAsync();
-        }
+        
     }
 }

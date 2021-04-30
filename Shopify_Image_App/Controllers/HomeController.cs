@@ -35,20 +35,22 @@ namespace Shopify_Image_App.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string searchText)
+        public async Task<IActionResult> Index(string searchText)
         {
-            IEnumerable<Image> images = null;
+            
 
             ViewData["searchText"] = searchText;
 
-            if (!string.IsNullOrEmpty(searchText))
-            {
-                images = _imageRepository.GetAllImages().Result.Reverse()
-                                .Where(x => x.ImageName.ToLower().Contains(searchText.ToLower())).OrderByDescending(x => x.CreatedOn);
-            } else
-            {
-                images = _imageRepository.GetAllImages().Result.Reverse().OrderByDescending(x => x.CreatedOn);
-            }
+            List<Image> images = await _imageRepository.GetAllImages(searchText);
+
+            //if (!string.IsNullOrEmpty(searchText))
+            //{
+            //    images = _imageRepository.GetAllImages().Result.Reverse()
+            //                    .Where(x => x.ImageName.ToLower().Contains(searchText.ToLower())).OrderByDescending(x => x.CreatedOn);
+            //} else
+            //{
+            //    images = _imageRepository.GetAllImages().Result.Reverse().OrderByDescending(x => x.CreatedOn);
+            //}
 
 
             ListViewModel model = new ListViewModel()
@@ -61,31 +63,31 @@ namespace Shopify_Image_App.Controllers
 
 
         [HttpGet]
-        public IActionResult SpecificUser(string userId)
-        {
-            ListViewModel model = new ListViewModel()
-            {
-                Images = _imageRepository.GetAllImages().Result.Reverse().Where(x => x.ApplicationUserId == userId)
-            };
+        //public IActionResult SpecificUser(string userId)
+        //{
+        //    ListViewModel model = new ListViewModel()
+        //    {
+        //        Images = _imageRepository.GetAllImages().Result.Reverse().Where(x => x.ApplicationUserId == userId)
+        //    };
 
-            var user = _userManager.FindByIdAsync(userId);
-            ViewData["UserName"] = user.Result.Name;
+        //    var user = _userManager.FindByIdAsync(userId);
+        //    ViewData["UserName"] = user.Result.Name;
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
 
 
         [Authorize]
         [HttpGet]
-        public IActionResult UserImages()
-        {
-            var userId = _userManager.GetUserId(HttpContext.User);
-            UserImagesViewModel model = new UserImagesViewModel()
-            {
-                Images = _imageRepository.GetAllImages().Result.Reverse().Where(x => x.ApplicationUserId == userId)
-            };
-            return View(model);
-        }
+        //public IActionResult UserImages()
+        //{
+        //    var userId = _userManager.GetUserId(HttpContext.User);
+        //    UserImagesViewModel model = new UserImagesViewModel()
+        //    {
+        //        Images = _imageRepository.GetAllImages().Result.Reverse().Where(x => x.ApplicationUserId == userId)
+        //    };
+        //    return View(model);
+        //}
 
         [Authorize]
         [HttpPost]
@@ -97,7 +99,6 @@ namespace Shopify_Image_App.Controllers
             {
 
                 string uniqueFileName = null;
-                // if (model.ImageFile == null)
 
                 string uploadFolder = Path.Combine("wwwroot", "img");
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ImageFile.FileName;
@@ -118,7 +119,7 @@ namespace Shopify_Image_App.Controllers
                 await _imageRepository.AddImage(newImage);
             }
 
-            model.Images = _imageRepository.GetAllImages().Result.Reverse().Where(x => x.ApplicationUserId == userId);
+            model.Images = await _imageRepository.GetImagesByUser(userId);
 
             return View(model);
         }
@@ -127,19 +128,27 @@ namespace Shopify_Image_App.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(int imageId)
         {
-            Image image = await _imageRepository.GetImage(imageId);
-            var userId = _userManager.GetUserId(HttpContext.User);
-
-            if (userId != image.ApplicationUserId)
+            try
             {
-                return RedirectToAction("Index", "Home");
+                Image image = await _imageRepository.GetImage(imageId);
+
+                var userId = _userManager.GetUserId(HttpContext.User);
+
+                if (userId != image.ApplicationUserId)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                System.IO.File.Delete(image.Path);
+
+                await _imageRepository.DeleteImage(imageId);
+
+                return RedirectToAction("UserImages", "Home", userId);
             }
-
-            System.IO.File.Delete(image.Path);
-
-            await _imageRepository.DeleteImage(imageId);
-
-            return RedirectToAction("UserImages", "Home", userId);
+            catch (Exception e)
+            {
+                return View("~/Views/Shared/ErrorPage.cshtml", e.Message);
+            }
         }
 
 

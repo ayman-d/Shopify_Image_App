@@ -74,4 +74,4 @@ C:\Users\Ayman\OneDrive\Desktop\Projects\Shopify_Image_App\Shopify_Image_App\obj
 C:\Users\Ayman\OneDrive\Desktop\Projects\Shopify_Image_App\Shopify_Image_App\obj\Debug\net5.0\Razor\Views\Account\Login.cshtml.g.cs
 C:\Users\Ayman\OneDrive\Desktop\Projects\Shopify_Image_App\Shopify_Image_App\obj\Debug\net5.0\Razor\Views\Home\UserImages.cshtml.g.cs
 C:\Users\Ayman\OneDrive\Desktop\Projects\Shopify_Image_App\Shopify_Image_App\obj\Debug\net5.0\Razor\Views\Home\SpecificUser.cshtml.g.cs
-C:\Users\Ayman\OneDrive\Desktop\Projects\Shopify_Image_App\Shopify_Image_App\obj\Debug\net5.0\Razor\Views\Shared\Unauthorized.cshtml.g.cs
+C:\Users\Ayman\OneDrive\Desktop\Projects\Shopify_Image_App\Shopify_Image_App\obj\Debug\net5.0\Razor\Views\Shared\ErrorPage.cshtml.g.cs

@@ -52,7 +52,7 @@ only require that the password is at least 8 characters long.
 <img src="https://puu.sh/HCUO0/7a1d6880f3.png" alt="login page" />
 
 - Once the user is logged in, they can click on "My Images" link under their name in the navigation menu as shown in the screenshot to be redirected to their own page 
-where they can view their images, add new images, or delete their previosuly shared images.
+where they can view their images, add new images, or delete their previously shared images.
 
 --
 

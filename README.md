@@ -83,7 +83,7 @@ Please consider the following when testing the application:
 
 - I usually prefer to build APIs with .NET and handle end points with a Javascript framework such as React, which allows for robust error handling and testing. However, 
 this app was built with MVC due to time restraint and that it is a demo.
-- I am not very well versed in unit testing, I have done some tests in the app but it is still a skill I am currently working on, and I wanted to be upfront about it.
+- Unit testing is a skill that I am currently in the process of developing.
 - The app might be a bit slow if you visit the link since it is hosted on a free tier Azure server.
 - The app was not built with the intent of making it presentable, the main focus was on the functionality.
 

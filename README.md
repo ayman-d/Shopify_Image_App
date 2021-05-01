@@ -18,7 +18,8 @@
   - In your command prompt or terminal, navigate to the main project directory (check it contains Shopify_Image_App.sln file)
   - run `dotnet restore` command to get all dependencies
   - run `dotnet build`
-  - run `dotnet watch run` to open the app in your browser
+  - navigate into the Shopify_Image_App folder `cd Shopify_Image_App` (check it contains the Startup.cs file)
+  - run `dotnet watch run` to open the app in your browser (you might get a security warning, click "Advanced" and proceed to the app)
 
 ---
 
